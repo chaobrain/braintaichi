@@ -12,3 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+
+
+from ._taichi_rand import *
+from ._taichi_rand import __all__ as _taichi_rand_all
+
+__all__ = _taichi_rand_all
+
+del _taichi_rand_all
+

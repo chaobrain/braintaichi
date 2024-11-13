@@ -14,10 +14,9 @@
 # ==============================================================================
 
 
-from braintaichi.rand._taichi_rand import __all__ as _taichi_rand_all
 from .main import *
 from .main import __all__ as _main_all
 
-__all__ = _main_all + _taichi_rand_all
+__all__ = _main_all
 
-del _main_all, _taichi_rand_all
+del _main_all

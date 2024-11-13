@@ -87,6 +87,7 @@ from ._eventop import *
 from ._eventop import __all__ as _eventop_all
 from ._primitive import *
 from ._primitive import __all__ as _prim_all
+from . import rand
 
 __all__ = (__all__ + _prim_all + _sparseop_all + _eventop_all + _jitconn_all)
 
