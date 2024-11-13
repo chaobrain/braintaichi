@@ -30,6 +30,6 @@ We are building the `BDP ecosystem <https://ecosystem-for-brain-dynamics.readthe
 .. toctree::
    :hidden:
    :maxdepth: 2
-
+   tutorial/braintaichi_intro.ipynb
    api.rst
 
