@@ -13,11 +13,11 @@
 # limitations under the License.
 # ==============================================================================
 
-from .utils import *
-from .utils import __all__ as _sparse_utils_all
-from .main import *
-from .main import __all__ as _main_all
 
-__all__ = _main_all + _sparse_utils_all
+from ._taichi_rand import *
+from ._taichi_rand import __all__ as _taichi_rand_all
 
-del _sparse_utils_all, _main_all
+__all__ = _taichi_rand_all
+
+del _taichi_rand_all
+
