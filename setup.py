@@ -152,7 +152,7 @@ setup(
     install_requires=['brainunit', 'brainstate', 'jax', 'jaxlib', 'taichi'],
     extras_require={"test": "pytest"},
     python_requires='>=3.8',
-    url='https://github.com/chaoming0625/braintaichi',
+    url='https://github.com/chaobrain/braintaichi',
     ext_modules=ext_modules,
     cmdclass={"build_ext": CMakeBuildExt},
     license='Apache-2.0 license',
