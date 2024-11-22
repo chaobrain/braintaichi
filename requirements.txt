@@ -4,5 +4,4 @@ numpy
 brainstate
 brainunit
 taichi
-cmake
-pybind11
+
