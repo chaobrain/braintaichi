@@ -7,7 +7,7 @@ import jax.lax
 import jax.numpy as jnp
 import numpy as np
 
-import braintaichi as bti
+import braintaichi
 
 taum = 20
 taue = 5
@@ -24,119 +24,127 @@ wi = 6.7
 
 
 class LIF(bst.nn.Neuron):
-  def __init__(self, size, V_init: callable, **kwargs):
-    super(LIF, self).__init__(size, **kwargs)
+    def __init__(self, size, V_init: callable, **kwargs):
+        super(LIF, self).__init__(size, **kwargs)
 
-    # parameters
-    self.V_rest = Vr
-    self.V_reset = El
-    self.V_th = Vt
-    self.tau = taum
-    self.tau_ref = ref
+        # parameters
+        self.V_rest = Vr
+        self.V_reset = El
+        self.V_th = Vt
+        self.tau = taum
+        self.tau_ref = ref
 
-    self.V_init = V_init
+        self.V_init = V_init
 
-  def init_state(self, *args, **kwargs):
-    # variables
-    self.V = bst.init.state(self.V_init, self.num)
-    self.spike = bst.init.state(bst.init.Constant(False, dtype=bool), self.num)
-    self.t_last_spike = bst.init.state(bst.init.Constant(-1e7), self.num)
+    def init_state(self, *args, **kwargs):
+        # variables
+        self.V = bst.init.state(self.V_init, self.varshape)
+        self.spike = bst.init.state(lambda s: jnp.zeros(s, dtype=bool), self.varshape)
+        self.t_last_spike = bst.init.state(bst.init.Constant(-1e7), self.varshape)
 
-  def update(self, inp):
-    inp = self.sum_current_inputs(self.V.value, init=inp)  # sum all projection inputs
-    refractory = (bst.environ.get('t') - self.t_last_spike.value) <= self.tau_ref
-    V = self.V.value + (-self.V.value + self.V_rest + inp) / self.tau * bst.environ.get_dt()
-    V = jnp.where(refractory, self.V.value, V)
-    spike = self.V_th <= V
-    self.t_last_spike.value = jnp.where(spike, bst.environ.get('t'), self.t_last_spike.value)
-    self.V.value = jnp.where(spike, self.V_reset, V)
-    self.spike.value = spike
-    return spike
-
-
-class CSRLinear2(bst.Module):
-  def __init__(self, n_pre, n_post, g_max, prob):
-    super().__init__()
-    self.g_max = g_max
-    self.n_pre = n_pre
-    self.n_post = n_post
-    self.indices = np.random.randint(0, n_post, size=(n_pre, int(n_post * prob)))
-
-  def update(self, spk):
-    def scan_fn(post, spi):
-      sp, ids = spi
-      post = jax.lax.cond(sp, lambda: post.at[ids].add(self.g_max), lambda _: post)
-      return post, None
-
-    return jax.lax.scan(scan_fn, jnp.zeros((self.n_post,)), (spk, self.indices))[0]
+    def update(self, inp):
+        inp = self.sum_current_inputs(inp, self.V.value)  # sum all projection inputs
+        refractory = (bst.environ.get('t') - self.t_last_spike.value) <= self.tau_ref
+        V = self.V.value + (-self.V.value + self.V_rest + inp) / self.tau * bst.environ.get_dt()
+        V = self.sum_delta_inputs(V)
+        V = jnp.where(refractory, self.V.value, V)
+        spike = self.V_th <= V
+        self.t_last_spike.value = jnp.where(spike, bst.environ.get('t'), self.t_last_spike.value)
+        self.V.value = jnp.where(spike, self.V_reset, V)
+        self.spike.value = spike
+        return spike
 
 
-class CSRLinear(bst.Module):
-  def __init__(self, n_pre, n_post, g_max, prob):
-    super().__init__()
-    self.g_max = g_max
-    self.n_pre = n_pre
-    self.n_post = n_post
-    self.prob = prob
-    self.indices = np.random.randint(0, n_post, size=(n_pre, int(n_post * prob))).flatten()
-    self.indptr = np.arange(0, n_pre + 1) * int(n_post * prob)
+class CSRLinear2(bst.nn.Module):
+    def __init__(self, n_pre, n_post, g_max, prob):
+        super().__init__()
+        self.g_max = g_max
+        self.n_pre = n_pre
+        self.n_post = n_post
+        self.indices = np.random.randint(0, n_post, size=(n_pre, int(n_post * prob)))
 
-  def update(self, spk):
-    return bti.event_csrmv(self.g_max, self.indices, self.indptr, spk, transpose=True, shape=(self.n_pre, self.n_post))
+    def update(self, spk):
+        def scan_fn(post, spi):
+            sp, ids = spi
+            post = jax.lax.cond(sp, lambda: post.at[ids].add(self.g_max), lambda _: post)
+            return post, None
 
-
-class Exponential(bst.Projection):
-  def __init__(self, num_pre, post, prob, g_max, tau, E):
-    super().__init__()
-    self.proj = bst.nn.HalfProjAlignPostMg(
-      comm=CSRLinear(num_pre, post.num, g_max, prob),
-      syn=bst.nn.Expon.delayed(post.num, tau=tau),
-      out=bst.nn.COBA.delayed(E=E),
-      post=post
-    )
+        return jax.lax.scan(scan_fn, jnp.zeros((self.n_post,)), (spk, self.indices))[0]
 
 
-class COBA(bst.ModuleGroup):
-  def __init__(self, scale):
-    super().__init__()
-    self.num_exc = int(3200 * scale)
-    self.num_inh = int(800 * scale)
-    self.N = LIF(self.num_exc + self.num_inh, V_init=bst.init.Normal(-55., 5.))
-    self.E = Exponential(self.num_exc, self.N, prob=80. / self.N.num, E=Erev_exc, g_max=we, tau=taue)
-    self.I = Exponential(self.num_inh, self.N, prob=80. / self.N.num, E=Erev_inh, g_max=wi, tau=taui)
+class CSRLinear(bst.nn.Module):
+    def __init__(self, n_pre, n_post, g_max, prob):
+        super().__init__()
+        self.g_max = g_max
+        self.n_pre = n_pre
+        self.n_post = n_post
+        self.prob = prob
+        self.indices = np.random.randint(0, n_post, size=(n_pre, int(n_post * prob))).flatten()
+        self.indptr = np.arange(0, n_pre + 1) * int(n_post * prob)
 
-  def init_state(self, *args, **kwargs):
-    self.rate = bst.init.state(jnp.zeros, self.N.num)
+    def update(self, spk):
+        return braintaichi.event_csrmv(
+            self.g_max,
+            self.indices,
+            self.indptr,
+            spk,
+            transpose=True,
+            shape=(self.n_pre, self.n_post)
+        )
 
-  def update(self, inp=Ib):
-    self.E(self.N.spike.value[:self.num_exc])
-    self.I(self.N.spike.value[self.num_exc:])
-    self.N(inp)
-    self.rate.value += self.N.spike.value
 
-  def step_run(self, i):
-    with bst.environ.context(i=i, t=i * bst.environ.get_dt()):
-      self.update()
+class Exponential(bst.nn.Projection):
+    def __init__(self, num_pre, post, prob, g_max, tau, E):
+        super().__init__()
+        self.proj = bst.nn.AlignPostProj(
+            comm=CSRLinear(num_pre, post.varshape[0], g_max, prob),
+            syn=bst.nn.Expon.desc(post.varshape, tau=tau, g_initializer=bst.init.ZeroInit()),
+            out=bst.nn.COBA.desc(E=E),
+            post=post
+        )
+
+
+class COBA(bst.nn.DynamicsGroup):
+    def __init__(self, scale):
+        super().__init__()
+        self.num_exc = int(3200 * scale)
+        self.num_inh = int(800 * scale)
+        self.N = LIF(self.num_exc + self.num_inh, V_init=bst.init.Normal(-55., 5.))
+        self.E = Exponential(self.num_exc, self.N, prob=80. / self.N.varshape[0], E=Erev_exc, g_max=we, tau=taue)
+        self.I = Exponential(self.num_inh, self.N, prob=80. / self.N.varshape[0], E=Erev_inh, g_max=wi, tau=taui)
+
+    def init_state(self, *args, **kwargs):
+        self.rate = bst.init.state(jnp.zeros, self.N.varshape)
+
+    def update(self, inp=Ib):
+        self.E(self.N.spike.value[:self.num_exc])
+        self.I(self.N.spike.value[self.num_exc:])
+        self.N(inp)
+        self.rate.value += self.N.spike.value
+
+    def step_run(self, i):
+        with bst.environ.context(i=i, t=i * bst.environ.get_dt()):
+            self.update()
 
 
 def run_a_simulation(scale=10, duration=1e3, ):
-  net = COBA(scale=scale)
-  bst.init_states(net)
-  indices = jnp.arange(int(duration / bst.environ.get_dt()))
-  t0 = time.time()
-  bst.transform.for_loop(net.step_run, indices)
-  t1 = time.time()
+    net = COBA(scale=scale)
+    bst.nn.init_all_states(net)
+    indices = jnp.arange(int(duration / bst.environ.get_dt()))
+    t0 = time.time()
+    bst.compile.for_loop(net.step_run, indices)
+    t1 = time.time()
 
-  # running
-  rate = net.rate.value.sum() / net.N.num / duration * 1e3
-  print(f'scale={scale}, size={net.N.num}, time = {t1 - t0} s, '
-        f'firing rate = {rate} Hz')
+    # running
+    rate = net.rate.value.sum() / net.N.varshape[0] / duration * 1e3
+    print(f'scale={scale}, size={net.N.varshape}, time = {t1 - t0} s, firing rate = {rate} Hz')
 
 
 def check_firing_rate():
-  for s in [1, 2, 4, 6, 8, 10, 20, 40, 60, 80, 100]:
-    run_a_simulation(scale=s, duration=5e3)
+    with bst.environ.context(dt=0.1):
+        for s in [1, 2, 4, 6, 8, 10, 20, 40, 60, 80, 100]:
+            run_a_simulation(scale=s, duration=5e3)
 
 
 if __name__ == '__main__':
-  check_firing_rate()
+    check_firing_rate()
