@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  	<img alt="Header image of braintaichi." src="https://github.com/chaoming0625/braintaichi/blob/main/docs/_static/braintaichi.jpg" width=50%>
+  	<img alt="Header image of braintaichi." src="https://github.com/chaoming0625/braintaichi/blob/main/docs/_static/braintaichi.png" width=50%>
 </p> 
 
 
