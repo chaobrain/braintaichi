@@ -3,6 +3,8 @@
 # wheel build requirements
 setuptools
 wheel
+cmake
+pybind11
 
 # test requirements
 pytest
