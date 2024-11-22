@@ -21,7 +21,7 @@ __all__ = [
     '__minimal_taichi_version__',
 ]
 
-__version__ = "0.0.1.post20240912"
+__version__ = "0.0.2"
 __minimal_taichi_version__ = (1, 7, 2)
 
 import ctypes

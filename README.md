@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  	<img alt="Header image of braintaichi." src="https://github.com/chaoming0625/braintaichi/blob/main/docs/_static/braintaichi.jpg" width=50%>
+  	<img alt="Header image of braintaichi." src="https://github.com/chaoming0625/braintaichi/blob/main/docs/_static/braintaichi.png" width=50%>
 </p> 
 
 
@@ -36,5 +36,5 @@ The official documentation is hosted on Read the Docs: [https://braintaichi.read
 
 ## See also the BDP ecosystem
 
-We are building the BDP ecosystem: https://ecosystem-for-brain-dynamics.readthedocs.io/
+We are building the brain dynamics programming ecosystem: https://ecosystem-for-brain-dynamics.readthedocs.io/
 
