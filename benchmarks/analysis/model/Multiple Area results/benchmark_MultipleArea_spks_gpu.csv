@@ -1,0 +1,10 @@
+neuron_num,conn_num,syn_func_type,device,brainpylib_e_spk,brainpylib_i_spk,taichi_e_spk,taichi_i_spk
+200,80,event_mv_prob_homo,gpu,485.3333,916.0,462.66666,928.0
+400,80,event_mv_prob_homo,gpu,449.66666,967.0,463.66666,942.0
+800,80,event_mv_prob_homo,gpu,457.99997,978.5,457.8333,948.0
+1600,80,event_mv_prob_homo,gpu,465.8333,954.0,459.41666,960.5
+3200,80,event_mv_prob_homo,gpu,465.66666,953.25,463.12497,940.25
+6400,80,event_mv_prob_homo,gpu,464.12497,937.75,468.18747,950.4375
+12800,80,event_mv_prob_homo,gpu,465.56247,952.3125,463.93747,941.1875
+25600,80,event_mv_prob_homo,gpu,462.49997,954.2656,462.33853,948.71875
+51200,80,event_mv_prob_homo,gpu,464.36978,945.97656,466.58072,949.2969

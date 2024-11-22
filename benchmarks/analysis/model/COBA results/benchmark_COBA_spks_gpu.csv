@@ -1,0 +1,12 @@
+post_num,conn_num,comm_type,device,brainpylib_spk,taichi_spk
+200,80,EventJitFPHomoLinear,gpu,2.24,3.22
+400,80,EventJitFPHomoLinear,gpu,2.35,2.305
+800,80,EventJitFPHomoLinear,gpu,2.995,3.2124999
+1600,80,EventJitFPHomoLinear,gpu,3.1499999,3.0237498
+3200,80,EventJitFPHomoLinear,gpu,3.01625,2.9681249
+6400,80,EventJitFPHomoLinear,gpu,3.0853124,3.1768749
+12800,80,EventJitFPHomoLinear,gpu,3.0839062,3.4031248
+25600,80,EventJitFPHomoLinear,gpu,3.0870311,3.3578906
+51200,80,EventJitFPHomoLinear,gpu,3.0295312,3.3873827
+100000,80,EventJitFPHomoLinear,gpu,3.08552,3.29154
+200000,80,EventJitFPHomoLinear,gpu,3.0284,3.3159099

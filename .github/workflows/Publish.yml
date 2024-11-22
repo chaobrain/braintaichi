@@ -62,7 +62,7 @@ jobs:
                 mkdir dist
                 cp wheelhouse/*.whl dist/
             - name: Archive Wheel Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: dist-linux
                 path: dist/*.whl
@@ -96,7 +96,7 @@ jobs:
                 mkdir dist
                 cp wheelhouse/*.whl dist/
             - name: Archive Wheel Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: dist-macos-arm
                 path: dist/*.whl
@@ -131,7 +131,7 @@ jobs:
     #             mkdir dist
     #             cp wheelhouse/*.whl dist/
     #         - name: Archive Wheel Artifacts
-    #           uses: actions/upload-artifact@v3
+    #           uses: actions/upload-artifact@v4
     #           with:
     #             name: dist-macos-x86
     #             path: dist/*.whl
@@ -161,7 +161,7 @@ jobs:
             - name: Build Wheel
               run: python setup.py bdist_wheel
             - name: Archive Wheel Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                 name: dist-windows
                 path: dist/*.whl
@@ -185,25 +185,25 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v4
         - name: Download linux(CPU) Artifacts
-          uses: actions/download-artifact@v3
+          uses: actions/download-artifact@v4
           with:
             name: dist-linux
             path: dist/
             
         - name: Download macOS(ARM) Artifacts
-          uses: actions/download-artifact@v3
+          uses: actions/download-artifact@v4
           with:
             name: dist-macos-arm
             path: dist/
 
         # - name: Download macOS(x86) Artifacts
-        #   uses: actions/download-artifact@v3
+        #   uses: actions/download-artifact@v4
         #   with:
         #     name: dist-macos-x86
         #     path: dist/
 
         - name: Download Windows Artifacts
-          uses: actions/download-artifact@v3
+          uses: actions/download-artifact@v4
           with:
             name: dist-windows
             path: dist/

@@ -17,11 +17,11 @@
 
 
 __all__ = [
-  '__version__',
-  '__minimal_taichi_version__',
+    '__version__',
+    '__minimal_taichi_version__',
 ]
 
-__version__ = "0.0.1.post20240912"
+__version__ = "0.0.2"
 __minimal_taichi_version__ = (1, 7, 2)
 
 import ctypes
@@ -30,30 +30,30 @@ import platform
 import sys
 
 with open(os.devnull, 'w') as devnull:
-  os.environ["TI_LOG_LEVEL"] = "error"
-  old_stdout = sys.stdout
-  sys.stdout = devnull
-  try:
-    import taichi as ti  # noqa
-  except ModuleNotFoundError:
-    raise ModuleNotFoundError(
-      f'We need taichi>={__minimal_taichi_version__}. '
-      f'Currently you can install taichi>={__minimal_taichi_version__} through:\n\n'
-      f'> pip install taichi -U'
-      # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
-    )
-  finally:
-    sys.stdout = old_stdout
+    os.environ["TI_LOG_LEVEL"] = "error"
+    old_stdout = sys.stdout
+    sys.stdout = devnull
+    try:
+        import taichi as ti  # noqa
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError(
+            f'We need taichi>={__minimal_taichi_version__}. '
+            f'Currently you can install taichi>={__minimal_taichi_version__} through:\n\n'
+            f'> pip install taichi -U'
+            # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
+        )
+    finally:
+        sys.stdout = old_stdout
 del old_stdout, devnull
 
 # check Taichi version
 if ti.__version__ < __minimal_taichi_version__:
-  raise RuntimeError(
-    f'We need taichi>={__minimal_taichi_version__}. '
-    f'Currently you can install taichi>={__minimal_taichi_version__} through:\n\n'
-    f'> pip install taichi -U'
-    # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
-  )
+    raise RuntimeError(
+        f'We need taichi>={__minimal_taichi_version__}. '
+        f'Currently you can install taichi>={__minimal_taichi_version__} through:\n\n'
+        f'> pip install taichi -U'
+        # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
+    )
 
 # update Taichi runtime and C api
 taichi_path = ti.__path__[0]
@@ -63,19 +63,19 @@ os.environ.update({'TAICHI_C_API_INSTALL_DIR': taichi_c_api_install_dir,
 
 # link the Taichi C api
 if platform.system() == 'Windows':
-  dll_path = os.path.join(os.path.join(taichi_c_api_install_dir, 'bin/'), 'taichi_c_api.dll')
-  try:
-    ctypes.CDLL(dll_path)
-  except OSError:
-    raise OSError(f'Can not find {dll_path}')
-  del dll_path
+    dll_path = os.path.join(os.path.join(taichi_c_api_install_dir, 'bin/'), 'taichi_c_api.dll')
+    try:
+        ctypes.CDLL(dll_path)
+    except OSError:
+        raise OSError(f'Can not find {dll_path}')
+    del dll_path
 elif platform.system() == 'Linux':
-  so_path = os.path.join(os.path.join(taichi_c_api_install_dir, 'lib/'), 'libtaichi_c_api.so')
-  try:
-    ctypes.CDLL(so_path)
-  except OSError:
-    raise OSError(f'Can not find {so_path}')
-  del so_path
+    so_path = os.path.join(os.path.join(taichi_c_api_install_dir, 'lib/'), 'libtaichi_c_api.so')
+    try:
+        ctypes.CDLL(so_path)
+    except OSError:
+        raise OSError(f'Can not find {so_path}')
+    del so_path
 
 del os, sys, platform, ti, ctypes, taichi_path, taichi_c_api_install_dir
 
@@ -87,6 +87,7 @@ from ._eventop import *
 from ._eventop import __all__ as _eventop_all
 from ._primitive import *
 from ._primitive import __all__ as _prim_all
+from . import rand
 
 __all__ = (__all__ + _prim_all + _sparseop_all + _eventop_all + _jitconn_all)
 

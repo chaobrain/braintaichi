@@ -1,0 +1,10 @@
+neuron_num,conn_num,syn_func_type,device,brainpylib_e_spk,brainpylib_i_spk,taichi_e_spk,taichi_i_spk
+200,80,event_mv_prob_homo,cpu,146.66667,193.33334,142.22223,233.33334
+400,80,event_mv_prob_homo,cpu,116.666664,193.33334,124.44444,190.0
+800,80,event_mv_prob_homo,cpu,115.55556,198.33334,125.0,203.33334
+1600,80,event_mv_prob_homo,cpu,124.44444,211.66666,118.05556,221.66666
+3200,80,event_mv_prob_homo,cpu,129.30556,188.75,130.69444,203.33334
+6400,80,event_mv_prob_homo,cpu,132.15277,194.79166,127.708336,193.54166
+12800,80,event_mv_prob_homo,cpu,126.31944,202.8125,127.8125,198.125
+25600,80,event_mv_prob_homo,cpu,126.16319,199.7396,129.1493,199.6875
+51200,80,event_mv_prob_homo,cpu,126.28473,201.40625,126.49306,201.17188

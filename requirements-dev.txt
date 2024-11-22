@@ -1,8 +1,10 @@
 -r requirements.txt
 
 # wheel build requirements
-setuptools==68.2.0
+setuptools
 wheel
+cmake
+pybind11
 
 # test requirements
 pytest

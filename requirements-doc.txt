@@ -1,5 +1,8 @@
 -r requirements.txt
 
+cmake
+pybind11
+
 # document requirements
 pandoc
 Jinja2

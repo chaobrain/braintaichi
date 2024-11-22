@@ -13,8 +13,8 @@
 # limitations under the License.
 # ==============================================================================
 
-from ._sparse_utils import *
-from ._sparse_utils import __all__ as _sparse_utils_all
+from .utils import *
+from .utils import __all__ as _sparse_utils_all
 from .main import *
 from .main import __all__ as _main_all
 

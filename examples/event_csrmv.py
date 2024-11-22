@@ -16,17 +16,17 @@
 
 import brainstate as bst
 
-import braintaichi as bti
+import braintaichi
 
 
 def try_example1():
-  events = bst.random.random((1000,)) < 0.1
+    events = bst.random.random((1000,)) < 0.1
 
-  # Create a sparse matrix
-  r = bti.jitc_event_mv_prob_homo(events, 1., conn_prob=0.1, shape=(1000, 1000), seed=123)
-  print(r.shape)
-  print(r)
+    # Create a sparse matrix
+    r = braintaichi.jitc_event_mv_prob_homo(events, 1., conn_prob=0.1, shape=(1000, 1000), seed=123)
+    print(r.shape)
+    print(r)
 
 
 if __name__ == '__main__':
-  try_example1()
+    try_example1()

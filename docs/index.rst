@@ -21,7 +21,7 @@ See also the BDP ecosystem
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-We are building the `BDP ecosystem <https://ecosystem-for-brain-dynamics.readthedocs.io/>`_.
+We are building the `brain dynamics programming ecosystem <https://ecosystem-for-brain-dynamics.readthedocs.io/>`_.
 
 
 ----
@@ -30,6 +30,6 @@ We are building the `BDP ecosystem <https://ecosystem-for-brain-dynamics.readthe
 .. toctree::
    :hidden:
    :maxdepth: 2
-
+   tutorial/braintaichi_intro.ipynb
    api.rst
 
