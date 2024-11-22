@@ -98,7 +98,7 @@ jobs:
             - name: Archive Wheel Artifacts
               uses: actions/upload-artifact@v4
               with:
-                name: dist-macos-arm
+                name: dist-macos-arm-${{ matrix.python-version }}
                 path: dist/*.whl
                 retention-days: 20
             - name: Test with pytest
@@ -163,7 +163,7 @@ jobs:
             - name: Archive Wheel Artifacts
               uses: actions/upload-artifact@v4
               with:
-                name: dist-windows
+                name: dist-windows-${{ matrix.python-version }}
                 path: dist/*.whl
                 retention-days: 20
             - name: Test with pytest
@@ -190,23 +190,61 @@ jobs:
             name: dist-linux
             path: dist/
             
-        - name: Download macOS(ARM) Artifacts
+        - name: Download macOS(ARM) Artifacts-3.9
           uses: actions/download-artifact@v4
           with:
-            name: dist-macos-arm
+            name: dist-macos-arm-3.9
+            path: dist/
+        
+        - name: Download macOS(ARM) Artifacts-3.10
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-macos-arm-3.10
+            path: dist/
+        
+        - name: Download macOS(ARM) Artifacts-3.11
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-macos-arm-3.11
             path: dist/
 
+        - name: Download macOS(ARM) Artifacts-3.12
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-macos-arm-3.12
+            path: dist/
+
+        
         # - name: Download macOS(x86) Artifacts
         #   uses: actions/download-artifact@v4
         #   with:
         #     name: dist-macos-x86
         #     path: dist/
 
-        - name: Download Windows Artifacts
+        - name: Download Windows Artifacts-3.9
           uses: actions/download-artifact@v4
           with:
-            name: dist-windows
+            name: dist-windows-3.9
             path: dist/
+        - name: Download Windows Artifacts-3.10
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-windows-3.10
+            path: dist/
+
+        - name: Download Windows Artifacts-3.11
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-windows-3.11
+            path: dist/
+
+        - name: Download Windows Artifacts-3.12
+          uses: actions/download-artifact@v4
+          with:
+            name: dist-windows-3.12
+            path: dist/
+
+        
         - name: Publish to PyPI
           uses: pypa/gh-action-pypi-publish@release/v1
           with:
