@@ -29,9 +29,13 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.abspath(os.path.curdir))
 sys.path.insert(0, os.path.abspath('../'))
 
 import braintaichi
+import auto_generater
+
+os.makedirs('api', exist_ok=True)
 
 
 # -- Project information -----------------------------------------------------
@@ -57,6 +61,7 @@ extensions = [
   'sphinx.ext.viewcode',
   'sphinx_autodoc_typehints',
   'myst_nb',
+  'matplotlib.sphinxext.plot_directive',
   'sphinx_thebe',
   'sphinx_design'
 ]
@@ -118,7 +123,7 @@ thebe_config = {
 
 
 html_theme_options = {
-    'show_toc_level': 2,
+    'show_toc_level': 1,
 }
 
 # -- Options for myst ----------------------------------------------
