@@ -31,7 +31,7 @@ requires = [
     "pybind11",
     "setuptools_scm[toml]>=3.4",
     "cmake",
-    "taichi==1.7.2",
+    "taichi==1.7.3",
 ]
 
 build-backend = "setuptools.build_meta"
