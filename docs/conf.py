@@ -29,9 +29,13 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.abspath(os.path.curdir))
 sys.path.insert(0, os.path.abspath('../'))
 
 import braintaichi
+import auto_generater
+
+os.makedirs('api', exist_ok=True)
 
 
 # -- Project information -----------------------------------------------------
@@ -118,7 +122,7 @@ thebe_config = {
 
 
 html_theme_options = {
-    'show_toc_level': 2,
+    'show_toc_level': 1,
 }
 
 # -- Options for myst ----------------------------------------------

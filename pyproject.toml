@@ -25,7 +25,7 @@ manylinux-x86_64-image = "manylinux_2_28"
 
 [build-system]
 requires = [
-    "setuptools==75.4.0",
+    "setuptools==68.2.0",
     "wheel",
     "Cython",
     "pybind11",
@@ -37,9 +37,9 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-requires-python = ">=3.8, <=3.12"
+requires-python = ">=3.9, <3.13"
 name = "braintaichi"
-version = "0.0.1.post20240912"
+version = "0.0.4"
 
 [tool.cibuildwheel.linux]
 before-all = "sh ci/linux/gpu/prepare_build_wheel_on_cuda.sh"

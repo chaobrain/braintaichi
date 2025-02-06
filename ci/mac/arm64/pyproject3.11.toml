@@ -39,7 +39,7 @@ build-backend = "setuptools.build_meta"
 [project]
 requires-python = ">=3.11, <3.12"
 name = "braintaichi"
-version = "0.0.1.post20240912"
+version = "0.0.4"
 
 [tool.cibuildwheel.linux]
 before-all = "sh prepare_build_wheel_on_cuda.sh"
