@@ -18,11 +18,11 @@
 
 __all__ = [
     '__version__',
-    '__minimal_taichi_version__',
+    '__selected_taichi_version__',
 ]
 
 __version__ = "0.0.4"
-__minimal_taichi_version__ = (1, 7, 2)
+__selected_taichi_version__ = (1, 7, 3)
 
 import ctypes
 import os
@@ -37,9 +37,9 @@ with open(os.devnull, 'w') as devnull:
         import taichi as ti  # noqa
     except ModuleNotFoundError:
         raise ModuleNotFoundError(
-            f'We need taichi>={__minimal_taichi_version__}. '
-            f'Currently you can install taichi>={__minimal_taichi_version__} through:\n\n'
-            f'> pip install taichi -U'
+            f'We need taichi =={__selected_taichi_version__}. '
+            f'Currently you can install taichi=={__selected_taichi_version__} through:\n\n'
+            f'> pip install taichi=={__selected_taichi_version__}\n'
             # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
         )
     finally:
@@ -47,11 +47,11 @@ with open(os.devnull, 'w') as devnull:
 del old_stdout, devnull
 
 # check Taichi version
-if ti.__version__ < __minimal_taichi_version__:
+if ti.__version__ != __selected_taichi_version__:
     raise RuntimeError(
-        f'We need taichi>={__minimal_taichi_version__}. '
-        f'Currently you can install taichi>={__minimal_taichi_version__} through:\n\n'
-        f'> pip install taichi -U'
+        f'We need taichi=={__selected_taichi_version__}. '
+        f'Currently you can install taichi>={__selected_taichi_version__} through:\n\n'
+        f'> pip install taichi=={__selected_taichi_version__}\n'
         # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
     )
 
