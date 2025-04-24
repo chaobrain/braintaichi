@@ -6,6 +6,7 @@ import os
 import io
 import platform
 import re
+import shutil
 import subprocess
 import sys
 from setuptools import setup, Extension, find_namespace_packages
@@ -93,6 +94,10 @@ class CMakeBuildExt(build_ext):
         install_dir = os.path.abspath(os.path.dirname(self.get_ext_fullpath("dummy")))
         print("install_dir", install_dir)
         os.makedirs(install_dir, exist_ok=True)
+        
+        gcc_path = shutil.which("gcc-11") or "/usr/bin/gcc-11"  # 默认回退路径
+        gxx_path = shutil.which("g++-11") or "/usr/bin/g++-11"
+        
         cmake_args = [
             "-DPYTHON_LIBRARY={}".format(os.path.join(sysconfig.get_config_var('LIBDIR'))),
             "-DPYTHON_INCLUDE_DIRS={}".format(sysconfig.get_python_inc()),
@@ -133,8 +138,8 @@ class CMakeBuildExt(build_ext):
                 '-gencode=arch=compute_90,code=sm_90 '
             ),
             "-DCUDACXX=/usr/local/cuda/bin/nvcc",
-            "-DCMAKE_C_COMPILER=gcc-11",
-            "-DCMAKE_CXX_COMPILER=g++-11",
+            f"-DCMAKE_C_COMPILER={gcc_path}",
+            f"-DCMAKE_CXX_COMPILER={gxx_path}",
         ]
         if os.environ.get("BRAINPY_CUDA", "no").lower() == "yes":
             cmake_args.append("-DBRAINPY_CUDA=yes")
