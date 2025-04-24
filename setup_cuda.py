@@ -114,6 +114,7 @@ class CMakeBuildExt(build_ext):
             "-DCMAKE_CXX_FLAGS=-O3",
             "-DCMAKE_C_FLAGS=-O3",
             "-DCMAKE_CUDA_FLAGS={}".format(
+                '-allow-unsupported-compiler'
                 '-O3 '
                 '-arch=sm_86 '
                 # '-gencode=arch=compute_30,code=sm_30 '
@@ -135,8 +136,6 @@ class CMakeBuildExt(build_ext):
                 '-gencode=arch=compute_90,code=sm_90 '
             ),
             "-DCUDACXX=/usr/local/cuda/bin/nvcc",
-            f"-DCMAKE_C_COMPILER=gcc-11",
-            f"-DCMAKE_CXX_COMPILER=g++-11",
         ]
         if os.environ.get("BRAINPY_CUDA", "no").lower() == "yes":
             cmake_args.append("-DBRAINPY_CUDA=yes")
