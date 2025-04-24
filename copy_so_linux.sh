@@ -17,3 +17,14 @@ else
     echo "Environment setup script 'set_env.sh' is missing or empty."
     exit 1
 fi
+
+# GCC 11
+yum install -y centos-release-scl
+yum install -y devtoolset-11-gcc devtoolset-11-gcc-c++
+echo "source /opt/rh/devtoolset-11/enable" >> ~/.bashrc
+source /opt/rh/devtoolset-11/enable
+
+gcc --version
+
+export CC=/opt/rh/devtoolset-11/root/usr/bin/gcc
+export CXX=/opt/rh/devtoolset-11/root/usr/bin/g++
