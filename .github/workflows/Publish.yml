@@ -59,6 +59,10 @@ jobs:
                 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 60
                 sudo update-alternatives --config gcc
                 sudo update-alternatives --config g++
+
+                ls /usr/bin/g++-11
+                which g++-11 
+                chmod +x /usr/bin/g++-11  # 添加执行权限
             - name: Install dependencies
               run: |
                 python -m pip cache purge
