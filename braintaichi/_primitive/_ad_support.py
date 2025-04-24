@@ -20,7 +20,7 @@ from functools import partial
 
 import jax
 from jax import tree_util
-from jax.core import Primitive
+from jax.extend.core import Primitive
 from jax.interpreters import ad
 
 __all__ = [

@@ -393,9 +393,9 @@ def _preprocess_kernel_call_gpu(
 
 
 def _kernel_to_code(kernel, abs_ins, abs_outs, platform):
-    codes = f'[taichi {platform} kernel]\n' + get_source_with_dependencies(kernel)
-    codes += '\n[ins]: {}'.format("-".join([f'{v.dtype}[{v.shape}]' for v in abs_ins]))
-    codes += '\n[outs]: {}'.format("-".join([f'{v.dtype}[{v.shape}]' for v in abs_outs]))
+    codes = f'[taichi {ti.__version__} {platform} kernel]\n{get_source_with_dependencies(kernel)}'
+    codes += f"""\n[ins]: {"-".join([f'{v.dtype}[{v.shape}]' for v in abs_ins])}"""
+    codes += f"""\n[outs]: {"-".join([f'{v.dtype}[{v.shape}]' for v in abs_outs])}"""
     return codes
 
 
