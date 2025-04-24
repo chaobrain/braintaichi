@@ -52,6 +52,13 @@ jobs:
               uses: actions/setup-python@v5
               with:
                 python-version: 3.12
+            - name: Install compatible GCC
+              run: |
+                sudo apt-get install -y gcc-11 g++-11
+                sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 60
+                sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 60
+                sudo update-alternatives --config gcc
+                sudo update-alternatives --config g++
             - name: Install dependencies
               run: |
                 python -m pip cache purge
