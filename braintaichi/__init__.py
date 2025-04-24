@@ -21,7 +21,7 @@ __all__ = [
     '__selected_taichi_version__',
 ]
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __selected_taichi_version__ = (1, 7, 3)
 
 import ctypes
