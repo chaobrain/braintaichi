@@ -172,7 +172,7 @@ setup(
     },
     install_requires=['brainunit', 'brainstate', 'jax', 'jaxlib', 'taichi'],
     extras_require={"test": "pytest"},
-    python_requires='>=3.9',
+    python_requires='>=3.10',
     url='https://github.com/chaoming0625/braintaichi',
     ext_modules=[
         Extension("gpu_ops",
@@ -191,7 +191,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
