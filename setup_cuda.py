@@ -133,6 +133,8 @@ class CMakeBuildExt(build_ext):
                 '-gencode=arch=compute_90,code=sm_90 '
             ),
             "-DCUDACXX=/usr/local/cuda/bin/nvcc",
+            "-DCMAKE_C_COMPILER=gcc-11",
+            "-DCMAKE_CXX_COMPILER=g++-11",
         ]
         if os.environ.get("BRAINPY_CUDA", "no").lower() == "yes":
             cmake_args.append("-DBRAINPY_CUDA=yes")
