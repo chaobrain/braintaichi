@@ -6,6 +6,7 @@ import os
 import io
 import platform
 import re
+import shutil
 import subprocess
 import sys
 from setuptools import setup, Extension, find_namespace_packages
@@ -93,6 +94,7 @@ class CMakeBuildExt(build_ext):
         install_dir = os.path.abspath(os.path.dirname(self.get_ext_fullpath("dummy")))
         print("install_dir", install_dir)
         os.makedirs(install_dir, exist_ok=True)
+        
         cmake_args = [
             "-DPYTHON_LIBRARY={}".format(os.path.join(sysconfig.get_config_var('LIBDIR'))),
             "-DPYTHON_INCLUDE_DIRS={}".format(sysconfig.get_python_inc()),
@@ -172,7 +174,7 @@ setup(
     },
     install_requires=['brainunit', 'brainstate', 'jax', 'jaxlib', 'taichi'],
     extras_require={"test": "pytest"},
-    python_requires='>=3.9',
+    python_requires='>=3.10',
     url='https://github.com/chaoming0625/braintaichi',
     ext_modules=[
         Extension("gpu_ops",
@@ -191,7 +193,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
