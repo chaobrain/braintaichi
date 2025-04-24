@@ -63,6 +63,9 @@ jobs:
               run: |
                 python -m pip cache purge
                 pip install cibuildwheel
+            - name: Configure CMake
+              run: |
+                cmake -B build -DCMAKE_C_COMPILER=gcc-11 -DCMAKE_CXX_COMPILER=g++-11
             - name: Build Wheel
               run: |
                 cibuildwheel --platform linux
