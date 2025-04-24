@@ -37,3 +37,7 @@ echo "[global]" >> "${pip_config_file}"
 echo "index-url = https://pypi.org/simple" >> "${pip_config_file}"
 
 echo "Pip mirror sources have been set!"
+
+export PATH=$(echo $PATH | tr ':' '\n' | grep -v "gcc-toolset-14" | tr '\n' ':')
+export CC=gcc
+export CXX=g++

@@ -114,7 +114,6 @@ class CMakeBuildExt(build_ext):
             "-DCMAKE_CXX_FLAGS=-O3",
             "-DCMAKE_C_FLAGS=-O3",
             "-DCMAKE_CUDA_FLAGS={}".format(
-                '-allow-unsupported-compiler'
                 '-O3 '
                 '-arch=sm_86 '
                 # '-gencode=arch=compute_30,code=sm_30 '
