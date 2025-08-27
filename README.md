@@ -78,10 +78,51 @@ print(out)
 
 ## Installation
 
+### From PyPI
+
 You can install ``braintaichi`` via pip:
 
 ```bash
 pip install braintaichi --upgrade
+```
+
+### From Source
+
+To compile and install from source code:
+
+#### Prerequisites
+
+1. **Install dependencies**:
+   ```bash
+   pip install taichi==1.7.3 pybind11
+   ```
+
+#### Platform-specific Requirements
+
+**Linux with GPU support**:
+- NVIDIA GPU drivers
+- CUDA Toolkit (version 12.8 recommended, see [ci/linux/gpu/prepare_build_wheel_on_cuda.sh](ci/linux/gpu/prepare_build_wheel_on_cuda.sh))
+- Development packages:
+  ```bash
+  # Example for RHEL/CentOS
+  yum install -y python3-devel cuda-cudart-devel
+  ```
+
+**Windows**:
+- Visual Studio with C++ development tools ([Installation Guide](https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation))
+
+#### Build and Install
+
+```bash
+git clone https://github.com/chaoming0625/braintaichi.git
+cd braintaichi
+pip install -e .
+```
+
+Or alternatively:
+
+```bash
+python setup.py install
 ```
 
 ## Documentation
