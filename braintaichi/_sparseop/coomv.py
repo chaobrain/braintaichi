@@ -126,7 +126,9 @@ _coomv_cusparse_p.def_impl(_coomv_impl)
 ad.defjvp(_coomv_cusparse_p, _coomv_jvp_mat, None, None, _coomv_jvp_vec)
 ad.primitive_transposes[_coomv_cusparse_p] = _coomv_transpose
 mlir.register_lowering(_coomv_cusparse_p, _coo_matvec_lowering)
-mlir.register_lowering(_coomv_cusparse_p,
-                       partial(_coomv_gpu_lowering, gpu_sparse.cuda_coo_matvec),
-                       platform='cuda')
+# Register CUDA lowering only if supported (for JAX 0.8.0+ compatibility)
+if hasattr(gpu_sparse, 'cuda_coo_matvec'):
+    mlir.register_lowering(_coomv_cusparse_p,
+                           partial(_coomv_gpu_lowering, gpu_sparse.cuda_coo_matvec),
+                           platform='cuda')
 register_general_batching(_coomv_cusparse_p)

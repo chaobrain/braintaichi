@@ -32,7 +32,20 @@ import numpy as np
 import taichi as ti
 from jax.interpreters import mlir
 from jax.lib import xla_client
-from jaxlib.hlo_helpers import custom_call
+
+# Import custom_call from the correct location based on JAX version
+try:
+    from jaxlib.hlo_helpers import custom_call
+except (ImportError, ModuleNotFoundError):
+    # For newer versions of JAX (>= 0.8.0), custom_call is in jax._src.interpreters.mlir
+    # Note: The old mlir module is imported above, but custom_call needs to be imported separately
+    from jax._src.interpreters.mlir import custom_call
+
+# Import Primitive from the correct location based on JAX version
+# In JAX 0.8.0+, Primitive is no longer exported in jax.core
+if not hasattr(jax.core, 'Primitive'):
+    from jax._src.core import Primitive
+    jax.core.Primitive = Primitive
 
 from ._batch_utils import _shape_to_layout
 
