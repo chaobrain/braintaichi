@@ -3,5 +3,5 @@ jaxlib
 numpy
 brainstate
 brainunit
-taichi==1.7.3
+taichi==1.7.4
 
