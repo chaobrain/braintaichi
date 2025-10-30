@@ -2,7 +2,7 @@
 jax[cuda12_pip]==0.4.14 
 brainpy==2.4.6.post5
 taichi==1.7.0
-brainpylib-cu12x==0.2.6
+brainpylib-cu12x==0.2.8
 pandas
 matplotlib
 seaborn
