@@ -130,9 +130,9 @@ python setup.py install
 The official documentation is hosted on Read the Docs: [https://braintaichi.readthedocs.io](https://braintaichi.readthedocs.io)
 
 
-## See also the BDP ecosystem
+## See also the ecosystem
 
-We are building the brain dynamics programming ecosystem: https://ecosystem-for-brain-dynamics.readthedocs.io/
+We are building the brain modeling ecosystem: https://brainmodeling.readthedocs.io/
 
 
 ## Citation
