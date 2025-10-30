@@ -1,5 +1,5 @@
 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-jax[cuda12_pip]==0.4.14 
+jax[cuda12_pip]==0.6.2 
 brainpy==2.4.6.post5
 taichi==1.7.0
 brainpylib-cu12x==0.2.6
