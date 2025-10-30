@@ -46,12 +46,15 @@ with open(os.devnull, 'w') as devnull:
         sys.stdout = old_stdout
 del old_stdout, devnull
 
-# check Taichi version
-if ti.__version__ != __selected_taichi_version__:
+# check Taichi version - allow compatible versions (1.7.3 or 1.7.4)
+_compatible_versions = [(1, 7, 3), (1, 7, 4)]
+if ti.__version__ not in _compatible_versions:
     raise RuntimeError(
-        f'We need taichi=={__selected_taichi_version__}. '
-        f'Currently you can install taichi>={__selected_taichi_version__} through:\n\n'
-        f'> pip install taichi=={__selected_taichi_version__}\n'
+        f'We need taichi compatible with {__selected_taichi_version__}. '
+        f'Compatible versions: {_compatible_versions}. '
+        f'Your version: {ti.__version__}\n\n'
+        f'You can install a compatible version through:\n'
+        f'> pip install taichi==1.7.4\n'
         # '> pip install -i https://pypi.taichi.graphics/simple/ taichi-nightly'
     )
 

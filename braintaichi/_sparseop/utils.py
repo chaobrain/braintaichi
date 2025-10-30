@@ -160,5 +160,11 @@ ad.defjvp(csr_to_dense_p, _csr_to_dense_jvp, None, None)
 ad.primitive_transposes[csr_to_dense_p] = _csr_to_dense_transpose
 mlir.register_lowering(csr_to_dense_p, _csr_to_dense_lowering)
 register_general_batching(csr_to_dense_p)
-if gpu_sparse.cuda_is_supported:
+# Check CUDA support - in newer JAX versions, use hasattr instead of cuda_is_supported
+if hasattr(gpu_sparse, 'cuda_is_supported'):
+    _cuda_supported = gpu_sparse.cuda_is_supported
+else:
+    _cuda_supported = hasattr(gpu_sparse, '_cusparse')
+
+if _cuda_supported:
     mlir.register_lowering(csr_to_dense_p, _csr_to_dense_gpu_lowering, platform='cuda')
