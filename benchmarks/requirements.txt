@@ -5,4 +5,4 @@ brainpylib==0.2.6
 pandas
 matplotlib
 seaborn
-numpy==2.2.3
+numpy==2.4.0
